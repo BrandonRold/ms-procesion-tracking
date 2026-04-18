@@ -1,98 +1,162 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+📍 ms-procesion-tracking
+Este microservicio se encuentra en desarrollo activo.
+Actualmente estoy implementando:
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Estructura basada en Clean Architecture
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Separación por capas (Domain, Application, Infrastructure, Presentation)
 
-## Description
+DTOs, Repositorios, Mappers y Casos de Uso
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+WebSocket Gateway desacoplado
 
-## Project setup
+Integración con Redis (cache + pub/sub)
 
-```bash
-$ npm install
-```
+Persistencia en base de datos NoSQL
 
-## Compile and run the project
+Conexión con GeoServer para capas geoespaciales
 
-```bash
-# development
-$ npm run start
+El objetivo es mantener un código escalable, mantenible y alineado a buenas prácticas, demostrando un enfoque profesional para reclutadores y equipos técnicos.
 
-# watch mode
-$ npm run start:dev
+🚀 Arquitectura General
+Code
+Frontend (Mapa / Dashboard)
+        │
+        ▼
+  WebSocket Gateway (NestJS)
+        │
+        ├── Redis (ubicación actual + ruta en memoria)
+        ├── NoSQL DB (histórico de posiciones)
+        └── GeoServer (capas geoespaciales)
+        
+Laravel API (Backend principal)
+        ├── Autenticación
+        ├── Gestión de jornadas
+        ├── Roles y permisos
+        └── Orquestación del sistema
+Este microservicio no gestiona usuarios, jornadas ni reglas de negocio.
+Solo se encarga del tracking, lo que permite mantener una arquitectura limpia, desacoplada y escalable.
 
-# production mode
-$ npm run start:prod
-```
+🛰️ Funcionalidades Principales
+✔ WebSocket Gateway
+Conexión persistente con clientes móviles o web.
 
-## Run tests
+Recepción de coordenadas en tiempo real.
 
-```bash
-# unit tests
-$ npm run test
+Broadcast inmediato a todos los suscriptores.
 
-# e2e tests
-$ npm run test:e2e
+Validación de token JWT emitido por Laravel.
 
-# test coverage
-$ npm run test:cov
-```
+✔ Persistencia NoSQL
+Almacenamiento del histórico de ubicaciones.
 
-## Deployment
+Optimizado para consultas geoespaciales.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Ideal para reconstruir rutas o auditorías.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+✔ Redis (Cache + Pub/Sub)
+Guarda la última ubicación para acceso instantáneo.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+Mantiene la ruta activa sin necesidad de consultar la base.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Permite escalabilidad horizontal del WebSocket Gateway.
 
-## Resources
+✔ Integración con GeoServer
+Publicación automática de capas geoespaciales.
 
-Check out a few resources that may come in handy when working with NestJS:
+Exposición de WMS/WFS para mapas en tiempo real.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Compatible con QGIS, Leaflet, OpenLayers, etc.
 
-## Support
+📦 Tecnologías Utilizadas
+Componente	Tecnología
+Framework	NestJS (TypeScript)
+Tiempo real	WebSocket Gateway
+Cache / PubSub	Redis
+Base de datos	MongoDB / DocumentDB / NoSQL equivalente
+GIS	GeoServer
+Autenticación	JWT emitido por Laravel
+Contenedores	Docker (opcional)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
+📡 Flujo de Tracking
+El dispositivo envía su ubicación al WebSocket Gateway.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+El servicio valida el token JWT con Laravel.
 
-## License
+La ubicación se guarda en Redis como “última posición”.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Se agrega la coordenada a la ruta activa.
+
+Se persiste en la base NoSQL para histórico.
+
+Se emite la actualización a todos los clientes conectados.
+
+GeoServer actualiza la capa geoespacial correspondiente.
+
+🛠 Instalación y Ejecución
+1. Instalar dependencias
+bash
+npm install
+2. Variables de entorno
+Configurar .env basado en .env.example:
+
+Code
+REDIS_HOST=
+REDIS_PORT=
+NOSQL_URI=
+JWT_PUBLIC_KEY=
+GEOSERVER_URL=
+GEOSERVER_USER=
+GEOSERVER_PASSWORD=
+3. Modo desarrollo
+bash
+npm run start:dev
+4. Producción
+bash
+npm run start:prod
+🧪 Tests
+bash
+npm run test
+npm run test:e2e
+npm run test:cov
+📁 Estructura del Proyecto
+Code
+src/
+ ├── websocket/
+ │     ├── gateway.ts
+ │     ├── events.ts
+ │     └── dto/
+ ├── tracking/
+ │     ├── tracking.service.ts
+ │     ├── tracking.repository.ts
+ │     └── schemas/
+ ├── redis/
+ ├── geoserver/
+ └── common/
+🔐 Seguridad
+Validación de JWT contra Laravel.
+
+Sanitización de payloads.
+
+Rate limiting por conexión.
+
+Canales WebSocket segmentados por jornada.
+
+🌍 Integración con GeoServer
+El microservicio expone endpoints internos para:
+
+Crear capas dinámicas
+
+Actualizar features
+
+Publicar rutas en tiempo real
+
+Servir datos a clientes GIS (QGIS, Leaflet, OpenLayers)
+
+📄 Licencia
+MIT — libre para uso y modificación.
+
+⭐ Autor
+Brandon Roldán Salcedo  
+Backend Developer — NestJS, Laravel, GIS, Seguridad
